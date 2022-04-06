@@ -1,15 +1,8 @@
 // 과제 조건
 // 1. Member, Dinner interface 만들고 타입 지정하기
 // 2. organize 내부 로직 채우기
-interface Member{
-    name: string;
-    group: string;
-}
-interface Dinner{
-    member: Member[];
-    shuffle: (array: Member[]) => Member[];
-    organize: (array: Member[]) => void;
-}
+import { Member } from "./interface/Member";
+import { Dinner } from "./interface/Dinner";
 
 const dinner: Dinner = {
     member: [
