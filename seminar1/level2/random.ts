@@ -7,8 +7,8 @@ interface Member{
 }
 interface Dinner{
     member: Member[];
-    shuffle(array: Member[]): Member[]; 
-    organize(array: Member[]): void; 
+    shuffle: (array: Member[]) => Member[];
+    organize: (array: Member[]) => void;
 }
 
 const dinner: Dinner = {
