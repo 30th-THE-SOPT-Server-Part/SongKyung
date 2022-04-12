@@ -32,8 +32,11 @@ const dinner: Dinner = {
         return array;
     },
     organize(array) {
-        const dinnerMember = this.shuffle(array);
-        console.log(`오늘의 저녁 식사 멤버는 ${dinnerMember[0].name}, ${dinnerMember[1].name}`);
+        this.shuffle(array);
+        const ob:Member = array.filter((x:Member)=> x.group =='ob')[0];
+        const yb:Member = array.filter((x:Member)=> x.group =='yb')[0];
+
+        console.log(`오늘의 저녁 식사 멤버는 ${ob.name}, ${yb.name}`);
     }
 };
 
