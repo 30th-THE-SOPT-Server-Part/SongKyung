@@ -9,6 +9,6 @@ const message = {
     CREATE_USER_SUCCESS: '유저 생성 성공',
     DELETE_USER_SUCCESS: '유저 삭제 성공',
     UPDATE_USER_SUCCESS: '유저 수정 성공',
-}
+};
 
 export default message;

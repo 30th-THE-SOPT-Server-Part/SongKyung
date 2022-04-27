@@ -1,6 +1,6 @@
-import { SchoolInfo } from "../school/SchoolInfo";
+import { SchoolInfo } from '../school/SchoolInfo';
 
-export interface UserCreateDto{
+export interface UserCreateDto {
     name: string;
     phone: string;
     email: string;

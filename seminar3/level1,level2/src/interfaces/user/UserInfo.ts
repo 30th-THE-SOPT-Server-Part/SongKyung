@@ -1,4 +1,4 @@
-import { SchoolInfo } from "../school/SchoolInfo";
+import { SchoolInfo } from '../school/SchoolInfo';
 
 export interface UserInfo {
     //이름,핸드폰,이메일,학교
