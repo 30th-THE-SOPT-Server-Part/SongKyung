@@ -12,9 +12,10 @@ import ReviewService from '../services/ReviewService';
  */
 
 const createReview = async (req: Request, res: Response) => {
+    // body 검사에 대한 result가 들어온다.
     const error = validationResult(req);
-    //error: body 검사에 대한 result
     if (!error.isEmpty()) {
+        // error 가 있다면(비어있지 않다면)
         return res
             .status(statusCode.BAD_REQUEST)
             .send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));

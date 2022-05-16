@@ -8,7 +8,7 @@ const router: Router = Router();
 router.post(
     '/movies/:movieId',
     [
-        //notEmpty:비어있지 않는지 확인
+        // controller로 넘어가기 전에 validator가 body를 검사함
         body('title').notEmpty(),
         body('writer').notEmpty(),
         body('content').notEmpty(),
