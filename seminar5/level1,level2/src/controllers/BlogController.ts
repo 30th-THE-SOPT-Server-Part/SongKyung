@@ -20,7 +20,7 @@ const createBlog = async (req: Request, res: Response) => {
             BlogCreateDto,
         );
         res.status(statusCode.CREATED).send(
-            util.success(statusCode.CREATED, message.CREATE_USER_SUCCESS, data),
+            util.success(statusCode.CREATED, message.CREATE_BLOG_SUCCESS, data),
         );
     } catch (error) {
         console.log(error);
@@ -46,7 +46,9 @@ const updateBlog = async (req: Request, res: Response) => {
     try {
         await BlogService.updateBlog(blogId, blogUpdateDto);
 
-        res.status(statusCode.NO_CONTENT).send();
+        res.status(statusCode.OK).send(
+            util.success(statusCode.OK, message.UPDATE_BLOG_SUCCESS),
+        );
     } catch (error) {
         console.log(error);
         //서버 내부에서 오류 발생
@@ -73,7 +75,7 @@ const findBlogById = async (req: Request, res: Response) => {
                 .send(util.fail(statusCode.NOT_FOUND, message.NOT_FOUND));
         }
         res.status(statusCode.OK).send(
-            util.success(statusCode.OK, message.READ_USER_SUCCESS, data),
+            util.success(statusCode.OK, message.READ_BLOG_SUCCESS, data),
         );
     } catch (error) {
         console.log(error);
@@ -95,7 +97,9 @@ const deleteBlog = async (req: Request, res: Response) => {
 
     try {
         await BlogService.deleteBlog(blogId);
-        return res.status(statusCode.NO_CONTENT).send();
+        res.status(statusCode.OK).send(
+            util.success(statusCode.OK, message.DELETE_BLOG_SUCCESS),
+        );
     } catch (error) {
         console.log(error);
         //서버 내부에서 오류 발생

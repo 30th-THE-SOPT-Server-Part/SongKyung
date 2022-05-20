@@ -8,6 +8,12 @@ const message = {
     INVALID_TOKEN: '만료된 토큰입니다.',
     INVALID_PASSWORD: '비밀번호 오류',
 
+    //블로그
+    READ_BLOG_SUCCESS: '블로그 조회 성공',
+    CREATE_BLOG_SUCCESS: '블로그 생성 성공',
+    DELETE_BLOG_SUCCESS: '블로그 삭제 성공',
+    UPDATE_BLOG_SUCCESS: '블로그 수정 성공',
+
     //유저
     READ_USER_SUCCESS: '유저 조회 성공',
     CREATE_USER_SUCCESS: '유저 생성 성공',
@@ -16,6 +22,7 @@ const message = {
     SIGNIN_USER_SUCCESS: '유저 로그인 성공',
 
     //영화
+    GET_MOVIE_SUCCESS: '전체 영화 조회 성공',
     READ_MOVIE_SUCCESS: '영화 조회 성공',
     CREATE_MOVIE_SUCCESS: '영화 생성 성공',
     DELETE_MOVIE_SUCCESS: '영화 삭제 성공',
@@ -24,8 +31,12 @@ const message = {
     //리뷰
     READ_REVIEW_SUCCESS: '리뷰 조회 성공',
     CREATE_REVIEW_SUCCESS: '리뷰 생성 성공',
-
+    
+    //댓글
+    CREATE_MOVIE_COMMENT_SUCCESS: '영화 댓글 생성 성공',
+    
     DUPLICATED:'중복된 정보',
+
 };
 
 export default message;

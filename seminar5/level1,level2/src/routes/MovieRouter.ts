@@ -14,6 +14,8 @@ router.put('/:movieId/comments/:commentId', [
     body('comment').notEmpty()
 ], auth, MovieController.updateMovieComment);
 
+router.get('/',MovieController.getMovie);
+
 router.put('/:movieId', MovieController.updateMovie);
 router.get('/:movieId', MovieController.findMovieById);
 router.delete('/:movieId', MovieController.deleteMovie);
