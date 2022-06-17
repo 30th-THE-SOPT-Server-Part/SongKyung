@@ -27,6 +27,7 @@ const message = {
     CREATE_MOVIE_SUCCESS: '영화 생성 성공',
     DELETE_MOVIE_SUCCESS: '영화 삭제 성공',
     UPDATE_MOVIE_SUCCESS: '영화 수정 성공',
+    SEARCH_MOVIE_SUCCESS: '영화 검색 성공',
 
     //리뷰
     READ_REVIEW_SUCCESS: '리뷰 조회 성공',

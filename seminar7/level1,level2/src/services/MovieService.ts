@@ -143,6 +143,19 @@ const updateMovieComment = async (
     }
 };
 
+const getMoviesBySearch = async (search: string): Promise<MovieInfo[]> => {
+    const regex = (pattern: string) => new RegExp(`.*${pattern}.*`);
+
+    try{
+        const titleRegex: RegExp = regex(search);
+        const movies = await Movie.find({title:{$regex: titleRegex}}); // title 에서 검색
+        return movies
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}    
+
 export default {
     createMovie,
     updateMovie,
@@ -151,4 +164,5 @@ export default {
     createMovieComment,
     updateMovieComment,
     getMovie,
+    getMoviesBySearch,
 };
