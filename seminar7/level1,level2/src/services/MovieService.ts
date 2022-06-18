@@ -8,6 +8,7 @@ import { MovieResponseDto } from '../interfaces/movie/MovieResponseDto';
 import { MovieUpdateDto } from '../interfaces/movie/MovieUpdateDto';
 import { MovieOptionType } from '../interfaces/movie/MovieOptionType';
 import Movie from '../models/Movie';
+import { MoviesResponseDto } from '../interfaces/movie/MoviesResponseDto';
 
 const createMovie = async (
     movieCreateDto: MovieCreateDto,
@@ -147,19 +148,29 @@ const updateMovieComment = async (
 const getMoviesBySearch = async (
     search: string,
     option: MovieOptionType,
-): Promise<MovieInfo[]> => {
+    page: number,
+): Promise<MoviesResponseDto[]> => {
     const regex = (pattern: string) => new RegExp(`.*${pattern}.*`); // 몽고디비는 .*ㅇㄻㅇㄹ.* 을 사용하여 검색한다
 
     let movies: MovieInfo[] = [];
+    
+    const perPage: number = 2; // 페이지 당 데이터 수
+    
     try {
         const searchRegex: RegExp = regex(search);
 
         if (option === 'title') {
             // title에서 검색
-            movies = await Movie.find({ title: { $regex: searchRegex } });
+            movies = await Movie.find({ title: { $regex: searchRegex } })
+                        .sort({createAt:-1}) // 최신순 정렬
+                        .skip(perPage * (page-1)) // 만약 3번째 페이지를 검색하려면, 2 * 2 개를 건너뛰게한다.
+                        .limit(perPage) // 한페이지 당 parPage개 씩 ;
         } else if (option === 'director') {
             // director에서 검색
-            movies = await Movie.find({ director: { $regex: searchRegex } });
+            movies = await Movie.find({ director: { $regex: searchRegex } })
+            .sort({createAt:-1}) // 최신순 정렬
+            .skip(perPage * (page-1)) // 만약 3번째 페이지를 검색하려면, 2 * 2 개를 건너뛰게한다.
+            .limit(perPage) // 한페이지 당 parPage개 씩 ;
         } else {
             // title, director 에서 검색
             movies = await Movie.find({
@@ -167,9 +178,22 @@ const getMoviesBySearch = async (
                     { director: { $regex: searchRegex } },
                     { title: { $regex: searchRegex } },
                 ],
-            });
+            })
+            .sort({createAt:-1}) // 최신순 정렬
+            .skip(perPage * (page-1)) // 만약 3번째 페이지를 검색하려면, 2 * 2 개를 건너뛰게한다.
+            .limit(perPage) // 한페이지 당 parPage개 씩 ;
         }
-        return movies;
+
+        // 클라에게 넘겨줄 마지막 페이지도 계산해주자
+        const total: number = await Movie.countDocuments({});
+        const lastPage: number = Math.ceil(total/perPage);
+
+        const data = {
+            movies, 
+            lastPage
+        }
+
+        return data;
     } catch (error) {
         console.log(error);
         throw error;

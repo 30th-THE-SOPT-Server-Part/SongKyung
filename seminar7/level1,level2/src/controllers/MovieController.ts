@@ -10,6 +10,7 @@ import { MovieUpdateDto } from '../interfaces/movie/MovieUpdateDto';
 import { MovieCommentCreateDto } from '../interfaces/movie/MovieCommentCreateDto';
 import Movie from '../models/Movie';
 import { MovieOptionType } from '../interfaces/movie/MovieOptionType';
+import { MovieCommentUpdateDto } from '../interfaces/movie/MovieCommentUpdateDto';
 /**
  *  @route POST /movie
  *  @desc Create movie
@@ -247,8 +248,10 @@ const getMoviesBySearch = async (req: Request, res: Response) => {
         return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
     }
 
+    const page: number = Number(req.query.page || 1);
+
     try{
-        const data = await MovieService.getMoviesBySearch(search as string, option as string); // search 타입은 string
+        const data = await MovieService.getMoviesBySearch(search as string, option as MovieOptionType, page); // search 타입은 string
         
         res.status(statusCode.OK).send(
             util.success(statusCode.OK, message.SEARCH_MOVIE_SUCCESS, data));
