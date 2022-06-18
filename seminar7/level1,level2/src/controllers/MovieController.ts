@@ -9,6 +9,7 @@ import { MovieService } from '../services';
 import { MovieUpdateDto } from '../interfaces/movie/MovieUpdateDto';
 import { MovieCommentCreateDto } from '../interfaces/movie/MovieCommentCreateDto';
 import Movie from '../models/Movie';
+import { MovieOptionType } from '../interfaces/movie/MovieOptionType';
 /**
  *  @route POST /movie
  *  @desc Create movie
@@ -237,10 +238,17 @@ const updateMovieComment = async (req: Request, res: Response) => {
  * @access public
  */
 const getMoviesBySearch = async (req: Request, res: Response) => {
-    const { search} = req.query;
+    const { search,option } = req.query;
+    const isOptionType = (option: string): option is MovieOptionType => {
+        return ["title", "director", "title_director"].indexOf(option) !== -1;
+    } //-1이면 저안에 없는 것임
+
+    if (!isOptionType(option as string)) { // 우리가 정한 option이 아닌 넘이 넘어오면 Bad Request
+        return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, message.NULL_VALUE));
+    }
 
     try{
-        const data = await MovieService.getMoviesBySearch(search as string); // search 타입은 string
+        const data = await MovieService.getMoviesBySearch(search as string, option as string); // search 타입은 string
         
         res.status(statusCode.OK).send(
             util.success(statusCode.OK, message.SEARCH_MOVIE_SUCCESS, data));

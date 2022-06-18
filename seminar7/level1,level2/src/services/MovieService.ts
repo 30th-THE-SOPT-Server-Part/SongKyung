@@ -6,6 +6,7 @@ import { MovieCreateDto } from '../interfaces/movie/MovieCreateDto';
 import { MovieCommentInfo, MovieInfo } from '../interfaces/movie/MovieInfo';
 import { MovieResponseDto } from '../interfaces/movie/MovieResponseDto';
 import { MovieUpdateDto } from '../interfaces/movie/MovieUpdateDto';
+import { MovieOptionType } from '../interfaces/movie/MovieOptionType';
 import Movie from '../models/Movie';
 
 const createMovie = async (
@@ -143,18 +144,37 @@ const updateMovieComment = async (
     }
 };
 
-const getMoviesBySearch = async (search: string): Promise<MovieInfo[]> => {
-    const regex = (pattern: string) => new RegExp(`.*${pattern}.*`);
+const getMoviesBySearch = async (
+    search: string,
+    option: MovieOptionType,
+): Promise<MovieInfo[]> => {
+    const regex = (pattern: string) => new RegExp(`.*${pattern}.*`); // 몽고디비는 .*ㅇㄻㅇㄹ.* 을 사용하여 검색한다
 
-    try{
-        const titleRegex: RegExp = regex(search);
-        const movies = await Movie.find({title:{$regex: titleRegex}}); // title 에서 검색
-        return movies
+    let movies: MovieInfo[] = [];
+    try {
+        const searchRegex: RegExp = regex(search);
+
+        if (option === 'title') {
+            // title에서 검색
+            movies = await Movie.find({ title: { $regex: searchRegex } });
+        } else if (option === 'director') {
+            // director에서 검색
+            movies = await Movie.find({ director: { $regex: searchRegex } });
+        } else {
+            // title, director 에서 검색
+            movies = await Movie.find({
+                $or: [
+                    { director: { $regex: searchRegex } },
+                    { title: { $regex: searchRegex } },
+                ],
+            });
+        }
+        return movies;
     } catch (error) {
         console.log(error);
         throw error;
     }
-}    
+};
 
 export default {
     createMovie,
