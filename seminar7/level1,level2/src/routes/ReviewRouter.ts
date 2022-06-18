@@ -5,6 +5,7 @@ import auth from '../middleware/auth';
 
 const router: Router = Router();
 
+router.get('/movies/:movieId',ReviewController.getReviewsBySearch);
 // validation 적용
 router.post(
     '/movies/:movieId',
